@@ -1,0 +1,3 @@
+void output(int); 
+
+
