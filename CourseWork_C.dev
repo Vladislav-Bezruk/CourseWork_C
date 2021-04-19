@@ -11,15 +11,15 @@ ResourceIncludes=
 MakeIncludes=
 Compiler=
 CppCompiler=
-Linker=
-IsCpp=0
+Linker=-lbgi -lgdi32 -luser32_@@_
+IsCpp=1
 Icon=
 ExeOutput=
 ObjectOutput=
 LogOutput=
 LogOutputEnabled=0
 OverrideOutput=0
-OverrideOutputName=
+OverrideOutputName=CourseWork_C.exe
 HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
@@ -27,8 +27,8 @@ CommandLine=
 Folders=
 IncludeVersionInfo=0
 SupportXPThemes=0
-CompilerSet=0
-CompilerSettings=0000000000000000000000000
+CompilerSet=3
+CompilerSettings=0000000100000000000000000
 UnitCount=3
 
 [VersionInfo]
@@ -50,9 +50,9 @@ ProductVersion=1.0.0.0
 AutoIncBuildNr=0
 SyncProduct=1
 
-[Unit1]
-FileName=main.cpp
-CompileCpp=0
+[Unit2]
+FileName=include\functions.cpp
+CompileCpp=1
 Folder=
 Compile=1
 Link=1
@@ -60,9 +60,9 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit2]
-FileName=include\functions.h
-CompileCpp=0
+[Unit1]
+FileName=main.cpp
+CompileCpp=1
 Folder=
 Compile=1
 Link=1
@@ -71,8 +71,8 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit3]
-FileName=include\functions.cpp
-CompileCpp=0
+FileName=include\functions.h
+CompileCpp=1
 Folder=
 Compile=1
 Link=1
