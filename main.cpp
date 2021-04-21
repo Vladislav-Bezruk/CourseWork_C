@@ -38,10 +38,10 @@ int main() {
 		x[i] = 0.01 * (i - n / 2);
 		float xn = x[i];
 		
-		y[i] = sin(xn);
+		y[i] = atan(xn);
 	}
 	
-	draw(x, y, n, "T, секунди", "F, сила");
+	draw(x, y, n, "x", "y = arctg x");
 	
 	getch();
 	
