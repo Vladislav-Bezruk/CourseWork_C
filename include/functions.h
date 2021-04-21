@@ -1,6 +1,5 @@
-void output(int); 
+double getMin(double arr[], int n);
 
-void printStr(char*);
+double getMax(double arr[], int n);
 
-
-
+int convert(double c, double dc, double cMin);

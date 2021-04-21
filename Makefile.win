@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o include/functions.o
-LINKOBJ  = main.o include/functions.o
+OBJ      = main.o include/functions.o include/graph.o
+LINKOBJ  = main.o include/functions.o include/graph.o
 LIBS     = -L"D:/Програмы/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -lbgi -lgdi32 -luser32 -lbgi -lgdi32 -luser32 -m32
 INCS     = -I"D:/Програмы/Dev-Cpp/MinGW64/include" -I"D:/Програмы/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Програмы/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"D:/Програмы/Dev-Cpp/MinGW64/include" -I"D:/Програмы/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Програмы/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/Програмы/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -29,3 +29,6 @@ main.o: main.cpp
 
 include/functions.o: include/functions.cpp
 	$(CPP) -c include/functions.cpp -o include/functions.o $(CXXFLAGS)
+
+include/graph.o: include/graph.cpp
+	$(CPP) -c include/graph.cpp -o include/graph.o $(CXXFLAGS)
