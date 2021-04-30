@@ -13,6 +13,7 @@
 #define EROR_SQRT       "It is impossible to calculate the square root"
 #define ERROR_NOFILE    "There are no input file"
 #define ERROR_EMPTYFILE "Input file is empty"
+#define ERROR_INVDATA   "Invalid input data"
 
 struct DATA {
 	double T;
@@ -70,13 +71,13 @@ int main() {
 	
 	if (input == 0) {
 		puts(ERROR_NOFILE);
-		return 0;
+		exit(1);
 	}
 	
 	fseek(input, 0, SEEK_END);
     if (ftell(input) == 0) { 
         puts(ERROR_EMPTYFILE);  
-        return 0;
+        exit(1);
     } 
     fseek(input, 0, SEEK_SET);
 	
@@ -162,10 +163,17 @@ double calcL(double t, double k, DATA data) {
 
 DATA readData(FILE *input) {
 	DATA data;
+	int flag;
 	
-	fscanf(input, "%lf%lf%lf%d%lf%d%d", 
+	flag = fscanf(input, "%lf%lf%lf%d%lf%d%d", 
 	       &data.T, &data.dt, &data.L0, &data.k0,
 		   &data.C0, &data.m, &data.n);
+		   
+	if (flag != 7 || data.T <= 0 || data.dt <= 0 || data.L0 <= 0|| 
+		data.k0 <= 0 || data.C0 <= 0 || data.m <= 0 || data.n <= 0) {
+		puts(ERROR_INVDATA);
+		exit(1);
+	}
 		   
 	return data;
 }
@@ -184,14 +192,21 @@ void draw(DATA_RES result) {
 	int h = getmaxy();
 	
 	double dx = (xMax - xMin) / w;
-	double dy = (yMax - yMin) / h;
+	double dy = (yMax - yMin) / (h - 10);
 	
 	char label[STR_LEN] = "Result ";
 	char strNum[3] = {result.num + '0', ':', '\0'};
+	char labelBkp[STR_LEN];
 	
 	int i;
 	
+	setbkcolor(WHITE);
+	
+	setlinestyle(SOLID_LINE, 0, 5);
+	
 	cleardevice();
+	
+	setcolor(RED);
 	
 	for (i = 0; i < result.n - 1; i++) {
 		line(convert(result.x[i], dx, xMin), 
@@ -199,6 +214,8 @@ void draw(DATA_RES result) {
 		convert(result.x[i + 1], dx, xMin), 
 		h - convert(result.y[i + 1], dy, yMin));
 	}
+	
+	setcolor(BLUE);
 	
 	strcat(label, strNum);
 	
@@ -215,6 +232,32 @@ void draw(DATA_RES result) {
 	
 	outtextxy(0, 0, yLabelG);
 	outtextxy(w - 10 * strlen(xLabelG), h - 20, xLabelG);
+	
+	setcolor(GREEN);
+	
+	snprintf(labelBkp, STR_LEN, "%lg", result.y[0]);
+	
+	outtextxy(0, h - 20, labelBkp);
+	
+	snprintf(labelBkp, STR_LEN, "%lg", result.y[result.n - 1]);
+	
+	outtextxy(0, 20, labelBkp);
+	
+	snprintf(labelBkp, STR_LEN, "%lg", (result.y[0] + result.y[result.n - 1]) / 2);
+	
+	outtextxy(0, h / 2, labelBkp);
+	
+	snprintf(labelBkp, STR_LEN, "%lg", result.x[0]);
+	
+	outtextxy(20, h - 30, labelBkp);
+	
+	snprintf(labelBkp, STR_LEN, "%lg", result.x[result.n - 1]);
+	
+	outtextxy(w - 30, h - 30, labelBkp);
+	
+	snprintf(labelBkp, STR_LEN, "%lg", (result.x[0] + result.x[result.n - 1]) / 2);
+	
+	outtextxy(w / 2, h - 30, labelBkp);
 }
 
 double calcT(double t, DATA data) {
@@ -226,7 +269,7 @@ double calcT(double L, double C) {
 		return 2 * PI * sqrt(L * C);
 	} else {
 		puts(EROR_SQRT);
-		getch();
+		exit(1);
 	}
 }
 
@@ -265,11 +308,11 @@ void printResult(DATA_RES result, FILE *output) {
 	fprintf(output, "Result %d:\n", result.num);
 	
 	for (i = 0; i < result.n; i++) {
-		printf("%s = %lf %s\t %s = %.18lf %s\n", result.xLabel, result.x[i],
+		printf("%s = %.3lf %s\t %s = %lg %s\n", result.xLabel, result.x[i],
 		                                         result.xSystem, result.yLabel,
 											     result.y[i], result.ySystem);
 											   
-		fprintf(output, "%s = %lf %s\t %s = %.18lf %s\n", result.xLabel, result.x[i],
+		fprintf(output, "%s = %.3lf %s\t %s = %lg %s\n", result.xLabel, result.x[i],
 		                                                  result.xSystem, result.yLabel,
 											              result.y[i], result.ySystem);
 	}	
