@@ -1,5 +1,6 @@
 #include <graphics.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <conio.h>
 #include <math.h>
 
@@ -82,6 +83,8 @@ int main() {
     fseek(input, 0, SEEK_SET);
 	
 	for (i = 0; i < DATA_COUNT; i++) {
+		system("cls");
+		
 		data[i] = readData(input);
 			
 		res[i] = tabulate(data[i], i + 1, "t", "Tk", "c.", "c.");
